@@ -1,0 +1,177 @@
+* { box-sizing: border-box; }
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f8fafc;
+  background: #080d18;
+  font-synthesis: none;
+}
+
+body { margin: 0; min-width: 320px; }
+
+button { font: inherit; }
+
+.app {
+  min-height: 100vh;
+  padding: 28px;
+  background:
+    radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(139,92,246,.16), transparent 30%),
+    #080d18;
+}
+
+.topbar {
+  max-width: 1180px;
+  margin: 0 auto 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand { font-size: 30px; font-weight: 800; letter-spacing: -.8px; }
+.tagline { color: #94a3b8; margin-top: 4px; }
+.status {
+  padding: 10px 16px;
+  border: 1px solid #253047;
+  background: #111827;
+  border-radius: 999px;
+  color: #cbd5e1;
+}
+
+.game-layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 180px minmax(320px, 720px) 180px;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-card {
+  padding: 18px;
+  background: rgba(17,24,39,.82);
+  border: 1px solid #263248;
+  border-radius: 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.player-card strong, .player-card span { display: block; }
+.player-card span { color: #94a3b8; font-size: 13px; margin-top: 3px; }
+.avatar {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  background: #1e293b; border-radius: 12px; font-size: 25px;
+}
+
+.board-wrap { width: min(720px, 100%); margin: auto; }
+
+/* Fixed 8x8 grid: piece content can never change a square's size. */
+.board {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+  overflow: hidden;
+  border-radius: 14px;
+  border: 8px solid #111827;
+  box-shadow: 0 24px 70px rgba(0,0,0,.45);
+}
+
+.square {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.square.light { background: #e7d7bd; }
+.square.dark { background: #8a6546; }
+.square.selected { box-shadow: inset 0 0 0 5px #38bdf8; }
+
+/* Highlight every legal destination in green when a piece is selected. */
+.square.possible-move.light,
+.square.possible-move.dark {
+  background: #4ade80;
+}
+.square.possible-move {
+  box-shadow: inset 0 0 0 4px rgba(20, 83, 45, .45);
+}
+.square.possible-move:hover {
+  background: #22c55e;
+}
+
+.piece {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(30px, 6vw, 64px);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,.3));
+}
+.white-piece { color: #fff; text-shadow: 0 1px 2px #222; }
+.black-piece { color: #111; }
+
+.rank-label, .file-label {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: .65;
+  pointer-events: none;
+}
+.rank-label { left: 4px; top: 3px; }
+.file-label { right: 4px; bottom: 2px; }
+
+.board-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-button {
+  border: 1px solid #334155;
+  background: #172033;
+  color: #f8fafc;
+  padding: 11px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.action-button:hover:not(:disabled) { background: #22304a; }
+.action-button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+footer {
+  max-width: 1180px;
+  margin: 28px auto 0;
+  display: flex;
+  justify-content: space-between;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; max-width: 720px; }
+  .player-card { width: 100%; }
+  .player-card:first-child { order: -1; }
+  .topbar { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 500px) {
+  .app { padding: 12px; }
+  .brand { font-size: 24px; }
+  .board { border-width: 4px; border-radius: 8px; }
+  .piece { font-size: clamp(28px, 10vw, 48px); }
+  .board-actions { flex-wrap: wrap; }
+}
