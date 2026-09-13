@@ -45,7 +45,7 @@ function App() {
     if (game.isGameOver()) return;
 
     if (!selected) {
-      const piece = game.get(square);
+      const piece = game.get(square as Square);
       if (!piece || piece.color !== game.turn()) return;
       setSelected(square);
       setPossibleMoves(game.moves({ square: square as Square, verbose: true }).map((move) => move.to));
@@ -72,7 +72,7 @@ function App() {
         setMessage(`${next.turn() === "w" ? "White" : "Black"} to move`);
       }
     } catch {
-      const piece = game.get(square);
+      const piece = game.get(square as Square);
       if (piece?.color === game.turn()) {
         setSelected(square);
         setPossibleMoves(game.moves({ square: square as Square, verbose: true }).map((move) => move.to));
